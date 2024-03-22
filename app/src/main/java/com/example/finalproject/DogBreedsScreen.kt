@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,11 +25,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.finalproject.ui.theme.CreamWhite
 import com.example.finalproject.ui.theme.DarkOrange
@@ -37,6 +40,9 @@ import com.example.finalproject.ui.theme.OliveGreen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DogBreedsScreen(navController: NavHostController) {
+    val dogBreedsViewModel: MainViewModel = viewModel()
+    val viewState by dogBreedsViewModel.dogBreedsState
+
     Scaffold (
         topBar = {
             TopAppBar(
@@ -65,16 +71,41 @@ fun DogBreedsScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             color = CreamWhite
         ) {
-            Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-                ,
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                Text(
-                    "dummy text"
-                )
+            when {
+                viewState.loading -> {
+                    Column (modifier = Modifier.padding(innerPadding)) {
+                        Text("Loading...")
+                    }
+                }
+                viewState.error != null -> {
+                    Column(modifier = Modifier.padding(innerPadding)){
+                        Text("Error: ${viewState.error}")
+                    }
+                }
+                else -> {
+                    LazyColumn (modifier = Modifier.padding(innerPadding)){
+                        viewState.list.forEach { breed ->
+                            item {
+                                DogBreedItem(breed)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
+}
+
+//@Composable
+//fun DogBreedsList(breeds: List<Breed>) {
+//
+//}
+
+@Composable
+fun DogBreedItem(breed: Breed) {
+        Text(
+            text = breed.attributes.name,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
 }
