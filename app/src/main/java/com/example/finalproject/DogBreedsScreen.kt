@@ -1,40 +1,28 @@
 package com.example.finalproject
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddAPhoto
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.finalproject.ui.theme.CreamWhite
-import com.example.finalproject.ui.theme.DarkOrange
 import com.example.finalproject.ui.theme.OliveGreen
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +31,7 @@ fun DogBreedsScreen(navController: NavHostController) {
     val dogBreedsViewModel: MainViewModel = viewModel()
     val viewState by dogBreedsViewModel.dogBreedsState
 
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBar(
                 colors = topAppBarColors(
@@ -54,10 +42,11 @@ fun DogBreedsScreen(navController: NavHostController) {
                     Text("Dog Breeds")
                 },
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigate("home")
+                    IconButton(onClick = {
+                        navController.navigate("home")
                     }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Back",
                             tint = CreamWhite
                         )
@@ -65,29 +54,46 @@ fun DogBreedsScreen(navController: NavHostController) {
                 }
             )
         },
-    ) {
-        innerPadding ->
+    ) { innerPadding ->
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = CreamWhite
         ) {
-            when {
-                viewState.loading -> {
-                    Column (modifier = Modifier.padding(innerPadding)) {
+            Column(modifier = Modifier.padding(innerPadding)) {
+                when {
+                    viewState.loading -> {
                         Text("Loading...")
                     }
-                }
-                viewState.error != null -> {
-                    Column(modifier = Modifier.padding(innerPadding)){
+
+                    viewState.error != null -> {
                         Text("Error: ${viewState.error}")
                     }
-                }
-                else -> {
-                    LazyColumn (modifier = Modifier.padding(innerPadding)){
+
+                    else -> {
                         viewState.list.forEach { breed ->
-                            item {
-                                DogBreedItem(breed)
-                            }
+                            ListItem(
+                                colors = ListItemDefaults.colors(
+                                    containerColor = Color.Transparent,
+                                ),
+                                headlineContent = {
+                                    Text(breed.attributes.name)
+                                },
+                                supportingContent = {
+                                    //calc average weight, if < 24 lbs, small, if < 59 lbs, medium, if <99 lbs Large, else Giant
+                                    val avgWeight =
+                                        (breed.attributes.male_weight.min + breed.attributes.female_weight.max + breed.attributes.female_weight.min + breed.attributes.male_weight.max) / 4
+                                    if (avgWeight < 24) {
+                                        Text("Small")
+                                    } else if (avgWeight < 59) {
+                                        Text("Medium")
+                                    } else if (avgWeight < 99) {
+                                        Text("Large")
+                                    } else {
+                                        Text("Giant")
+                                    }
+                                },
+                            )
+                            HorizontalDivider()
                         }
                     }
                 }
@@ -96,16 +102,3 @@ fun DogBreedsScreen(navController: NavHostController) {
     }
 }
 
-//@Composable
-//fun DogBreedsList(breeds: List<Breed>) {
-//
-//}
-
-@Composable
-fun DogBreedItem(breed: Breed) {
-        Text(
-            text = breed.attributes.name,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-}
