@@ -1,58 +1,33 @@
 package com.example.finalproject
 
 data class Breed(
-    val id: String,
-    val type: String,
-    val attributes: Attributes,
-    val relationships: Relationships
-)
-
-data class Attributes(
+    val weight: Weight,
+    val height: Height,
+    val id: Int,
     val name: String,
-    val description: String,
-    val life: Life,
-    val male_weight: Weight,
-    val female_weight: Weight,
-    val hypoallergenic: Boolean
-)
-
-data class Life(
-    val max: Byte,
-    val min: Byte
+    val bred_for: String,
+    val breed_group: String?,
+    val life_span: String,
+    val temperament: String,
+    val origin: String,
+    val reference_image_id: String,
+    val image: Image
 )
 
 data class Weight(
-    val max: Short,
-    val min: Short
+    val imperial: String,
+    val metric: String
 )
 
-data class Relationships(
-    val group: Group
+data class Height(
+    val imperial: String,
+    val metric: String
 )
 
-data class Group(
-    val data: GroupData
-)
-
-data class GroupData(
+data class Image(
     val id: String,
-    val type: String
+    val width: Int,
+    val height: Int,
+    val url: String
 )
 
-data class BreedsResponse(
-    val data: List<Breed>,
-    val links: Links
-)
-
-data class BreedByIdResponse(
-    val data: Breed,
-    val links: Links
-)
-
-
-data class Links(
-    val self: String,
-    val current: String,
-    val next: String,
-    val last: String
-)

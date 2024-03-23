@@ -26,6 +26,11 @@ fun App() {
     NavHost(navController = navController, startDestination = "home") {
         composable(route = "home") { HomeScreen(navController) }
         composable(route = "breeds") { DogBreedsScreen(navController) }
-        composable(route = "breeds/{breedId}") { backStackEntry -> DogBreedDetailsScreen(navController, backStackEntry.arguments?.getString("breedId")) }
+        composable(route = "breeds/{breedId}") { backStackEntry ->
+            DogBreedDetailsScreen(
+                navController,
+                backStackEntry.arguments?.getString("breedId")
+            )
+        }
     }
 }

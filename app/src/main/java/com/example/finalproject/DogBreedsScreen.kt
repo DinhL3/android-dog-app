@@ -1,11 +1,12 @@
 package com.example.finalproject
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
@@ -69,42 +70,36 @@ fun DogBreedsScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxSize(),
             color = CreamWhite
         ) {
-            Column(modifier = Modifier.padding(innerPadding)) {
-                when {
-                    viewState.loading -> {
-                        Box(Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center) {
-                            CircularProgressIndicator()
-                        }
-                    }
 
-                    viewState.error != null -> {
+            when {
+                viewState.loading -> {
+                    Box(
+                        Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                viewState.error != null -> {
+                    Column(modifier = Modifier.padding(innerPadding)) {
                         Text("Error: ${viewState.error}")
                     }
+                }
 
-                    else -> {
-                        viewState.breedsList.forEach { breed ->
+                else -> {
+                    LazyColumn(modifier = Modifier.padding(innerPadding)) {
+                        items(viewState.breedsList) { breed ->
                             ListItem(
                                 modifier = Modifier.clickable { navController.navigate("breeds/${breed.id}") },
                                 colors = ListItemDefaults.colors(
                                     containerColor = Color.Transparent,
-                                    ),
+                                ),
                                 headlineContent = {
-                                    Text(breed.attributes.name)
+                                    Text(breed.name)
                                 },
                                 supportingContent = {
-                                    //calc average weight, if < 24 lbs, small, if < 59 lbs, medium, if <99 lbs Large, else Giant
-                                    val avgWeight =
-                                        (breed.attributes.male_weight.min + breed.attributes.female_weight.max + breed.attributes.female_weight.min + breed.attributes.male_weight.max) / 4
-                                    if (avgWeight < 24) {
-                                        Text("Small")
-                                    } else if (avgWeight < 59) {
-                                        Text("Medium")
-                                    } else if (avgWeight < 99) {
-                                        Text("Large")
-                                    } else {
-                                        Text("Giant")
-                                    }
+                                    Text(breed.breed_group ?: "Unknown")
                                 },
                             )
                             HorizontalDivider()
@@ -112,6 +107,7 @@ fun DogBreedsScreen(navController: NavHostController) {
                     }
                 }
             }
+
         }
     }
 }
