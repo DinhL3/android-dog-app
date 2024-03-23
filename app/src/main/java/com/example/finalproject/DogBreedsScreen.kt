@@ -66,7 +66,7 @@ fun DogBreedsScreen(navController: NavHostController) {
                 },
                 navigationIcon = {
                     IconButton(onClick = {
-                        navController.navigate("home")
+                        navController.popBackStack()
                     }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -123,8 +123,7 @@ fun DogBreedsScreen(navController: NavHostController) {
                                 ListItem(
                                     modifier = Modifier.clickable { navController.navigate("breeds/${breed.id}") },
                                     colors = ListItemDefaults.colors(
-                                        containerColor = Color.Transparent,
-
+                                        containerColor = Color.Transparent
                                     ),
                                     headlineContent = {
                                         Text(breed.name)

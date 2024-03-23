@@ -20,7 +20,6 @@ class MainViewModel : ViewModel() {
                     breedsList = response,
                     error = null
                 )
-                Log.d("MainViewModel", "Successfully fetched breeds: ${response[0].breed_group}")
             } catch (e: Exception) {
                 _dogBreedsState.value = _dogBreedsState.value.copy(
                     loading = false,
@@ -51,10 +50,31 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun fetchImageById(id: String) {
+        viewModelScope.launch {
+            try {
+                val response = dogBreedsService.getImageById(id)
+                _dogBreedsState.value = _dogBreedsState.value.copy(
+                    loading = false,
+                    image = response,
+                    error = null,
+                )
+                Log.d("MainViewModel", "Successfully fetched image with id: $id")
+            } catch (e: Exception) {
+                _dogBreedsState.value = _dogBreedsState.value.copy(
+                    loading = false,
+                    error = "Error fetching image ${e.message}"
+                )
+                Log.e("MainViewModel", "${e.message}")
+            }
+        }
+    }
+
     data class DogBreedState(
         val loading: Boolean = true,
         val breedsList: List<Breed> = emptyList(),
         val breed: Breed? = null,
-        val error: String? = null
+        val error: String? = null,
+        val image: Image? = null
     )
 }

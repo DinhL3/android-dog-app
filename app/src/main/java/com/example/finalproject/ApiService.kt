@@ -22,4 +22,8 @@ interface ApiService {
     @Headers("x-api-key: live_OLTnWu8TAJsdF069wfIMLtzTtFj6mDve4hG7KtYQzbm2egS36QgxahoZEYjv6yCm")
     @GET("breeds/{id}")
     suspend fun getBreedById(@Path("id") id: String): Breed
+
+    @Headers("x-api-key: live_OLTnWu8TAJsdF069wfIMLtzTtFj6mDve4hG7KtYQzbm2egS36QgxahoZEYjv6yCm")
+    @GET("images/{id}")
+    suspend fun getImageById(@Path("id") id: String): Image
 }
