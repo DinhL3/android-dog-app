@@ -44,6 +44,12 @@ data class BreedsResponse(
     val links: Links
 )
 
+data class BreedByIdResponse(
+    val data: Breed,
+    val links: Links
+)
+
+
 data class Links(
     val self: String,
     val current: String,

@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 fun App() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController) }
-        composable("dogBreeds") { DogBreedsScreen(navController) }
+        composable(route = "home") { HomeScreen(navController) }
+        composable(route = "breeds") { DogBreedsScreen(navController) }
     }
 }

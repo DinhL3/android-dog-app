@@ -17,9 +17,9 @@ interface ApiService {
 
     //add get breed by id
     @GET("breeds/{id}")
-    suspend fun getBreedById(id: String): Breed
+    suspend fun getBreedById(id: String): BreedByIdResponse
 
     //get group by id
-    @GET("groups/{id}")
-    suspend fun getGroupById(id: String): Group
+//    @GET("groups/{id}")
+//    suspend fun getGroupById(id: String): Group
 }

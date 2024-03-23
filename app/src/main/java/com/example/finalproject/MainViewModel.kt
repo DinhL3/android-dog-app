@@ -20,7 +20,7 @@ class MainViewModel: ViewModel() {
                 val response = dogBreedsService.getBreeds()
                 _dogBreedsState.value = _dogBreedsState.value.copy(
                     loading = false,
-                    list = response.data,
+                    breedsList = response.data,
                     error = null
                 )
             } catch (e: Exception) {
@@ -32,9 +32,28 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    private fun fetchBreedById(id: String) {
+        viewModelScope.launch {
+            try {
+                val response = dogBreedsService.getBreedById(id)
+                _dogBreedsState.value = _dogBreedsState.value.copy(
+                    loading = false,
+                    breed = response.data,
+                    error = null
+                )
+            } catch (e: Exception) {
+                _dogBreedsState.value = _dogBreedsState.value.copy(
+                    loading = false,
+                    error = "Error fetching dog breed ${e.message}"
+                )
+            }
+        }
+    }
+
     data class DogBreedState(
         val loading: Boolean = true,
-        val list: List<Breed> = emptyList(),
+        val breedsList: List<Breed> = emptyList(),
+        val breed: Breed? = null,
         val error: String? = null
     )
 }

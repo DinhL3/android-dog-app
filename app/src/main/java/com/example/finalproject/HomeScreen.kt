@@ -44,7 +44,7 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Button(
-            onClick = { navController.navigate("dogBreeds") },
+            onClick = { navController.navigate("breeds") },
             modifier = Modifier.padding(bottom = 8.dp),
             colors = ButtonDefaults.buttonColors(DarkOrange)
         ) {
