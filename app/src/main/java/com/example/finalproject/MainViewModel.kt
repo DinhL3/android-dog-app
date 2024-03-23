@@ -1,5 +1,6 @@
 package com.example.finalproject
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -10,11 +11,7 @@ class MainViewModel: ViewModel() {
     private val _dogBreedsState = mutableStateOf(DogBreedState())
     val dogBreedsState: State<DogBreedState> = _dogBreedsState
 
-    init {
-        fetchBreeds()
-    }
-
-    private fun fetchBreeds() {
+    public fun fetchBreeds() {
         viewModelScope.launch {
             try {
                 val response = dogBreedsService.getBreeds()
@@ -32,7 +29,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    private fun fetchBreedById(id: String) {
+    public fun fetchBreedById(id: String) {
         viewModelScope.launch {
             try {
                 val response = dogBreedsService.getBreedById(id)
@@ -41,11 +38,13 @@ class MainViewModel: ViewModel() {
                     breed = response.data,
                     error = null
                 )
+//                Log.d("MainViewModel", "Successfully fetched breed with id: $id")
             } catch (e: Exception) {
                 _dogBreedsState.value = _dogBreedsState.value.copy(
                     loading = false,
                     error = "Error fetching dog breed ${e.message}"
                 )
+//                Log.e("MainViewModel", "${e.message}")
             }
         }
     }

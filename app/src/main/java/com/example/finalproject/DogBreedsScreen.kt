@@ -1,5 +1,8 @@
 package com.example.finalproject
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,6 +36,10 @@ import com.example.finalproject.ui.theme.OliveGreen
 fun DogBreedsScreen(navController: NavHostController) {
     val dogBreedsViewModel: MainViewModel = viewModel()
     val viewState by dogBreedsViewModel.dogBreedsState
+
+    LaunchedEffect(key1 = Unit) {
+        dogBreedsViewModel.fetchBreeds()
+    }
 
     Scaffold(
         topBar = {
@@ -64,7 +72,10 @@ fun DogBreedsScreen(navController: NavHostController) {
             Column(modifier = Modifier.padding(innerPadding)) {
                 when {
                     viewState.loading -> {
-                        CircularProgressIndicator(Modifier.align(Alignment.CenterHorizontally))
+                        Box(Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator()
+                        }
                     }
 
                     viewState.error != null -> {
@@ -74,9 +85,10 @@ fun DogBreedsScreen(navController: NavHostController) {
                     else -> {
                         viewState.breedsList.forEach { breed ->
                             ListItem(
+                                modifier = Modifier.clickable { navController.navigate("breeds/${breed.id}") },
                                 colors = ListItemDefaults.colors(
                                     containerColor = Color.Transparent,
-                                ),
+                                    ),
                                 headlineContent = {
                                     Text(breed.attributes.name)
                                 },
