@@ -1,7 +1,8 @@
 # Dinh's Android Dog App
 
 ## 1. Overview
-This is a simple Android App, written with Kotlin and Jetpack Compose. Users can search for dog breeds and their details. Users can also use the camera to take picture (of their dog maybe?).    
+This is a simple Android App, written with Kotlin and Jetpack Compose. Users can search for dog breeds and their details. Users can also use the camera to take picture (of their dog maybe?).  
+The purpose of the project is to demonstrate basics of Android development: modern UI with Jetpack Compose, http requests, device permission (camera).  
 All information including pictures are fetched from [The Dog Api](https://thedogapi.com/)
 
 ## 2. Home screen
