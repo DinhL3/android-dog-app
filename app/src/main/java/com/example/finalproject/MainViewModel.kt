@@ -1,15 +1,27 @@
 package com.example.finalproject
 
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     private val _dogBreedsState = mutableStateOf(DogBreedState())
     val dogBreedsState: State<DogBreedState> = _dogBreedsState
+
+    private val _bitmaps = MutableStateFlow<List<Bitmap>>(emptyList())
+    val bitmaps = _bitmaps.asStateFlow()
+
+    fun onTakePhoto(bitmap: Bitmap){
+        Log.d("MainViewModel", "Code reached here")
+        _bitmaps.value += bitmap
+        Log.d("MainViewModel", "Saved picture success: ${_bitmaps.value}")
+    }
 
     fun fetchBreeds() {
         viewModelScope.launch {

@@ -56,7 +56,7 @@ fun HomeScreen(navController: NavHostController) {
             Text(text = "See dog breeds")
         }
         Button(
-            onClick = { },
+            onClick = { navController.navigate("camera")},
             modifier = Modifier.padding(bottom = 0.dp),
             colors = ButtonDefaults.buttonColors(DarkOrange)
         ) {
