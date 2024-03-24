@@ -38,6 +38,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Height
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Scale
+import androidx.compose.material.icons.filled.SentimentSatisfied
+import androidx.compose.material.icons.filled.SentimentSatisfiedAlt
+import androidx.compose.material.icons.filled.SportsBaseball
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -130,41 +138,94 @@ fun DogBreedDetailsScreen(navController: NavHostController, breedId: String?) {
                                 )
                             }
                             item {
-                                ListItem(
-                                    colors = ListItemDefaults.colors(
-                                        containerColor = Color.Transparent
-                                    ),
-                                    headlineContent = {
-                                        Text(
-                                            text = "Group",
-                                            color = DarkOrange,
-                                            fontWeight = FontWeight.Bold
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.Pets,
+                                            contentDescription = null,
+                                            tint = LightOrange
                                         )
                                     },
-                                    supportingContent = {
-                                        Text(
-                                            text = breed?.breed_group ?: "Unknown",
-                                        )
-                                    }
+                                    headline = "Group",
+                                    supportingText = breed?.breed_group
                                 )
                             }
                             item{
-                                ListItem(
-                                    colors = ListItemDefaults.colors(
-                                        containerColor = Color.Transparent
-                                    ),
-                                    headlineContent = {
-                                        Text(
-                                            text = "Bred for",
-                                            color = DarkOrange,
-                                            fontWeight = FontWeight.Bold
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.SportsBaseball,
+                                            contentDescription = null,
+                                            tint = LightOrange
                                         )
                                     },
-                                    supportingContent = {
-                                        Text(
-                                            text = breed?.bred_for ?: "Unknown",
+                                    headline = "Bred for",
+                                    supportingText = breed?.bred_for
+                                )
+                            }
+                            item{
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.SentimentSatisfiedAlt,
+                                            contentDescription = null,
+                                            tint = LightOrange
                                         )
-                                    }
+                                    },
+                                    headline = "Temperament",
+                                    supportingText = breed?.temperament
+                                )
+                            }
+                            item{
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.Favorite,
+                                            contentDescription = null,
+                                            tint = LightOrange
+                                        )
+                                    },
+                                    headline = "Life Span",
+                                    supportingText = breed?.life_span
+                                )
+                            }
+                            item{
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.Public,
+                                            contentDescription = null,
+                                            tint = LightOrange
+                                        )
+                                    },
+                                    headline = "Origin",
+                                    supportingText = breed?.origin
+                                )
+                            }
+                            item {
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.Scale,
+                                            contentDescription = null,
+                                            tint = LightOrange
+                                        )
+                                    },
+                                    headline = "Weight (kg)",
+                                    supportingText = breed?.weight?.metric
+                                )
+                            }
+                            item {
+                                BreedListItem(
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Filled.Height,
+                                            contentDescription = null,
+                                            tint = LightOrange
+                                        )
+                                    },
+                                    headline = "Height (cm)",
+                                    supportingText = breed?.height?.metric
                                 )
                             }
                         }
@@ -173,4 +234,26 @@ fun DogBreedDetailsScreen(navController: NavHostController, breedId: String?) {
             }
         }
     }
+}
+
+@Composable
+fun BreedListItem(leadingIcon: @Composable () -> Unit, headline: String, supportingText: String?) {
+    ListItem(
+        colors = ListItemDefaults.colors(
+            containerColor = Color.Transparent
+        ),
+        headlineContent = {
+            Text(
+                text = headline,
+                color = DarkOrange,
+                fontWeight = FontWeight.Bold
+            )
+        },
+        supportingContent = {
+            Text(
+                text = if (supportingText.isNullOrEmpty()) "Unknown" else supportingText,
+            )
+        },
+        leadingContent = leadingIcon
+    )
 }
