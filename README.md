@@ -19,3 +19,8 @@ Clicking on a dog breed will lead to Details screen.
 Here, the user can see all the details of a spefic dog breed and a representing image. There are some minor logic to handle the aspect ratio of the image, and the "unknown" details.
 
 <img src="https://res.cloudinary.com/doeoghxhd/image/upload/v1711241895/dog-app-demo/details-square_sjxgr0.png" width="200" /> <img src="https://res.cloudinary.com/doeoghxhd/image/upload/v1711241893/dog-app-demo/details-rectangle_zwctgh.png" width="200" />  
+
+## 5. Camera screen
+Chooseing "Take a picture..." on the home screen will open the camera screen. Here, user can take a picture, switch between front/back camera, and see the pictures taken in the session.  
+
+<img src="https://res.cloudinary.com/doeoghxhd/image/upload/v1711309147/dog-app-demo/camera_qvansl.png" width="200" /> <img src="https://res.cloudinary.com/doeoghxhd/image/upload/v1711309146/dog-app-demo/gallery_xveypz.png" width="200" />  
